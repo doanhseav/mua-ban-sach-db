@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2022 lúc 07:12 PM
+-- Thời gian đã tạo: Th10 12, 2022 lúc 10:50 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.1
 
@@ -24,51 +24,120 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chi_tiet_giao_dich`
+-- Cấu trúc bảng cho bảng `author`
 --
 
-CREATE TABLE `chi_tiet_giao_dich` (
-  `ma_giao_dich` varchar(10) NOT NULL,
-  `ma_sach` varchar(10) NOT NULL,
-  `so_luong` int(11) NOT NULL,
-  `don_gia` int(50) NOT NULL,
-  `thanh_tien` int(50) NOT NULL
+CREATE TABLE `author` (
+  `id` varchar(10) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `info` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `chi_tiet_giao_dich`
+-- Đang đổ dữ liệu cho bảng `author`
 --
 
-INSERT INTO `chi_tiet_giao_dich` (`ma_giao_dich`, `ma_sach`, `so_luong`, `don_gia`, `thanh_tien`) VALUES
-('PB1', 'S2', 1, 5000, 5000),
-('PB2', 'S2', 1, 5000, 5000),
-('PB3', 'S3', 1, 5000, 5000),
-('PB4', 'S3', 2, 5000, 10000),
-('PB5', 'S1', 1, 5000, 5000),
-('PM1', 'S1', 1, 10000, 10000),
-('PM2', 'S2', 1, 11000, 11000),
-('PM3', 'S3', 1, 15000, 15000),
-('PM4', 'S3', 2, 10000, 20000),
-('PM5', 'S1', 1, 10000, 10000);
+INSERT INTO `author` (`id`, `name`, `info`) VALUES
+('TG1', 'Yen Linh', 'abc'),
+('TG2', 'Nguyen Van Tho', 'abc'),
+('TG3', 'Ethel Voynich', 'abc');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `giao_dich`
+-- Cấu trúc bảng cho bảng `book_info`
 --
 
-CREATE TABLE `giao_dich` (
-  `ma_giao_dich` varchar(10) NOT NULL,
-  `loai_giao_dich` varchar(10) NOT NULL,
-  `ma_khach_hang` varchar(10) NOT NULL,
-  `ngay_giao_dich` date DEFAULT NULL
+CREATE TABLE `book_info` (
+  `id` varchar(10) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `genre` varchar(50) DEFAULT NULL,
+  `qty` int(10) DEFAULT NULL,
+  `publisher` varchar(50) DEFAULT NULL,
+  `pub_year` int(11) DEFAULT NULL,
+  `author_id` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Đang đổ dữ liệu cho bảng `giao_dich`
+-- Đang đổ dữ liệu cho bảng `book_info`
 --
 
-INSERT INTO `giao_dich` (`ma_giao_dich`, `loai_giao_dich`, `ma_khach_hang`, `ngay_giao_dich`) VALUES
+INSERT INTO `book_info` (`id`, `name`, `genre`, `qty`, `publisher`, `pub_year`, `author_id`) VALUES
+('S1', 'Ngay thoi khong cho doi', 'Truyen ngan', 10, 'NXB Tre', 2020, 'TG1'),
+('S2', 'Mua thanh pho', 'Tap but', 10, 'NXB Hoi Nha Van', 2021, 'TG2'),
+('S3', 'Ruoi trau', 'Truyen ngan', 10, 'NXB Hong Duc', 2021, 'TG3');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `customer_info`
+--
+
+CREATE TABLE `customer_info` (
+  `id` varchar(10) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `phone` varchar(10) DEFAULT NULL,
+  `addr` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `customer_info`
+--
+
+INSERT INTO `customer_info` (`id`, `name`, `phone`, `addr`) VALUES
+('KH1', 'Nguyen A', '0123456789', 'Ha Noi'),
+('KH2', 'Nguyen B', '0123456790', 'Ha Noi'),
+('KH3', 'Nguyen C', '0123456791', 'Ha Noi');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `transaction_id` varchar(10) DEFAULT NULL,
+  `book_id` varchar(10) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price` int(50) DEFAULT NULL,
+  `amount` int(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `orders`
+--
+
+INSERT INTO `orders` (`id`, `transaction_id`, `book_id`, `qty`, `price`, `amount`) VALUES
+(1, 'PB1', 'S2', 1, 5000, 5000),
+(2, 'PB2', 'S2', 1, 5000, 5000),
+(3, 'PB3', 'S3', 1, 5000, 5000),
+(4, 'PB4', 'S3', 2, 5000, 10000),
+(5, 'PB5', 'S1', 1, 5000, 5000),
+(6, 'PM1', 'S1', 1, 10000, 10000),
+(7, 'PM2', 'S2', 1, 10000, 10000),
+(8, 'PM3', 'S3', 1, 15000, 15000),
+(9, 'PM4', 'S3', 2, 10000, 20000),
+(10, 'PM5', 'S1', 1, 10000, 10000);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `transaction`
+--
+
+CREATE TABLE `transaction` (
+  `id` varchar(10) NOT NULL,
+  `act` varchar(10) DEFAULT NULL,
+  `customer_id` varchar(10) DEFAULT NULL,
+  `_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `transaction`
+--
+
+INSERT INTO `transaction` (`id`, `act`, `customer_id`, `_date`) VALUES
 ('PB1', 'ban', 'KH1', '2022-11-06'),
 ('PB2', 'ban', 'KH3', '2022-11-07'),
 ('PB3', 'ban', 'KH1', '2022-11-08'),
@@ -80,107 +149,49 @@ INSERT INTO `giao_dich` (`ma_giao_dich`, `loai_giao_dich`, `ma_khach_hang`, `nga
 ('PM4', 'mua', 'KH3', '2022-11-11'),
 ('PM5', 'mua', 'KH2', '2022-11-12');
 
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `khach_hang`
---
-
-CREATE TABLE `khach_hang` (
-  `ma_khach_hang` varchar(10) NOT NULL,
-  `ten_khach_hang` varchar(50) NOT NULL,
-  `sdt` varchar(10) NOT NULL,
-  `dia_chi` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `khach_hang`
---
-
-INSERT INTO `khach_hang` (`ma_khach_hang`, `ten_khach_hang`, `sdt`, `dia_chi`) VALUES
-('KH1', 'Nguyen A', '0123456789', 'Ha Noi'),
-('KH2', 'Nguyen B', '0123456790', 'Ha Noi'),
-('KH3', 'Nguyen C', '0123456791', 'Ha Noi');
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `tac_gia`
---
-
-CREATE TABLE `tac_gia` (
-  `ma_tac_gia` varchar(10) NOT NULL,
-  `ten_tac_gia` varchar(50) NOT NULL,
-  `thong_tin` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `tac_gia`
---
-
-INSERT INTO `tac_gia` (`ma_tac_gia`, `ten_tac_gia`, `thong_tin`) VALUES
-('TG1', 'Yen Linh', 'abc'),
-('TG2', 'Nguyen Van Tho', 'abc'),
-('TG3', 'Ethel Voynich', 'abc');
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `thong_tin_sach`
---
-
-CREATE TABLE `thong_tin_sach` (
-  `ma_sach` varchar(10) NOT NULL,
-  `ten_sach` varchar(50) NOT NULL,
-  `the_loai` varchar(50) NOT NULL,
-  `so_luong` int(10) NOT NULL,
-  `NXB` varchar(50) NOT NULL,
-  `nam_xuat_ban` int(11) NOT NULL,
-  `ma_tac_gia` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `thong_tin_sach`
---
-
-INSERT INTO `thong_tin_sach` (`ma_sach`, `ten_sach`, `the_loai`, `so_luong`, `NXB`, `nam_xuat_ban`, `ma_tac_gia`) VALUES
-('S1', 'Ngay thoi khong cho doi', 'Truyen ngan', 10, 'NXB Tre', 2020, 'TG1'),
-('S2', 'Mua thanh pho', 'Tap but', 10, 'NXB Hoi Nha Van', 2021, 'TG2'),
-('S3', 'Ruoi trau', 'Truyen ngan', 10, 'NXB Hong Duc', 2021, 'TG3');
-
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Chỉ mục cho bảng `chi_tiet_giao_dich`
+-- Chỉ mục cho bảng `author`
 --
-ALTER TABLE `chi_tiet_giao_dich`
-  ADD PRIMARY KEY (`ma_giao_dich`,`ma_sach`);
+ALTER TABLE `author`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `giao_dich`
+-- Chỉ mục cho bảng `book_info`
 --
-ALTER TABLE `giao_dich`
-  ADD PRIMARY KEY (`ma_giao_dich`);
+ALTER TABLE `book_info`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `khach_hang`
+-- Chỉ mục cho bảng `customer_info`
 --
-ALTER TABLE `khach_hang`
-  ADD PRIMARY KEY (`ma_khach_hang`);
+ALTER TABLE `customer_info`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `tac_gia`
+-- Chỉ mục cho bảng `orders`
 --
-ALTER TABLE `tac_gia`
-  ADD PRIMARY KEY (`ma_tac_gia`);
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `thong_tin_sach`
+-- Chỉ mục cho bảng `transaction`
 --
-ALTER TABLE `thong_tin_sach`
-  ADD PRIMARY KEY (`ma_sach`);
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
